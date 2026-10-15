@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: bookstore
-        image: tanshul12/online-bookstore:latest
+        image: tanshul12/online-bookstore:faulty-broken-v999
         imagePullPolicy: Always
         ports:
         - containerPort: 80
