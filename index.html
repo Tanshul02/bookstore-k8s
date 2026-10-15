@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Bookstore - Online Portal</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #0f172a; color: #f8fafc; padding: 2rem; }
+    header { text-align: center; margin-bottom: 2rem; border-bottom: 2px solid #38bdf8; padding-bottom: 1rem; }
+    h1 { color: #38bdf8; font-size: 2.2rem; }
+    .subtitle { color: #94a3b8; font-size: 1rem; margin-top: 0.5rem; }
+    .search-box { display: flex; justify-content: center; margin-bottom: 2rem; }
+    .search-box input { width: 50%; max-width: 500px; padding: 0.75rem 1rem; border-radius: 8px 0 0 8px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 1rem; outline: none; }
+    .search-box button { padding: 0.75rem 1.5rem; border-radius: 0 8px 8px 0; border: none; background: #0284c7; color: #fff; cursor: pointer; font-weight: bold; }
+    .cart-status { text-align: center; margin-bottom: 1.5rem; color: #38bdf8; font-weight: 600; font-size: 1.1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+    .card { background: #1e293b; border-radius: 10px; padding: 1.5rem; border: 1px solid #334155; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
+    .card:hover { transform: translateY(-4px); }
+    .book-title { font-size: 1.25rem; color: #f1f5f9; margin-bottom: 0.5rem; }
+    .book-author { color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .tag { display: inline-block; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-bottom: 0.75rem; }
+    .tag-cat { background: #0369a1; color: #e0f2fe; }
+    .tag-avail { background: #15803d; color: #dcfce7; }
+    .tag-low { background: #b45309; color: #fef3c7; }
+    .price { font-size: 1.4rem; color: #38bdf8; font-weight: bold; margin: 0.5rem 0; }
+    .btn-buy { background: #0284c7; color: white; border: none; padding: 0.6rem; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .btn-buy:hover { background: #0369a1; }
+    footer { text-align: center; margin-top: 3rem; color: #64748b; font-size: 0.9rem; border-top: 1px solid #334155; padding-top: 1rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Campus Bookstore Portal</h1>
+    <p class="subtitle">Search, Order & Track Academic Textbooks and Reference Guides</p>
+  </header>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search by book title or author..." onkeyup="filterBooks()" />
+    <button onclick="filterBooks()">Search</button>
+  </div>
+
+  <div class="cart-status">Shopping Cart: <span id="cartCount">0</span> item(s) selected</div>
+
+  <div class="grid" id="bookGrid">
+    <div class="card" data-title="Operating System Concepts" data-author="Silberschatz">
+      <div>
+        <span class="tag tag-cat">Computer Science</span>
+        <h2 class="book-title">Operating System Concepts</h2>
+        <p class="book-author">Author: Silberschatz, Galvin, Gagne</p>
+        <span class="tag tag-avail">In Stock</span>
+        <div class="price">Rs. 850</div>
+      </div>
+      <button class="btn-buy" onclick="addToCart('Operating System Concepts')">Add to Cart</button>
+    </div>
+
+    <div class="card" data-title="Cloud Computing: Concepts and Architecture" data-author="Erl">
+      <div>
+        <span class="tag tag-cat">Cloud / DevOps</span>
+        <h2 class="book-title">Cloud Computing: Concepts and Architecture</h2>
+        <p class="book-author">Author: Thomas Erl</p>
+        <span class="tag tag-avail">In Stock</span>
+        <div class="price">Rs. 920</div>
+      </div>
+      <button class="btn-buy" onclick="addToCart('Cloud Computing')">Add to Cart</button>
+    </div>
+
+    <div class="card" data-title="Compilers: Principles, Techniques and Tools" data-author="Aho Ullman">
+      <div>
+        <span class="tag tag-cat">Computer Science</span>
+        <h2 class="book-title">Compilers: Principles & Techniques</h2>
+        <p class="book-author">Author: Alfred Aho, Jeffrey Ullman</p>
+        <span class="tag tag-low">Limited Stock</span>
+        <div class="price">Rs. 799</div>
+      </div>
+      <button class="btn-buy" onclick="addToCart('Compilers')">Add to Cart</button>
+    </div>
+
+    <div class="card" data-title="Clean Code: A Handbook of Agile Software Craftsmanship" data-author="Robert Martin">
+      <div>
+        <span class="tag tag-cat">Software Engineering</span>
+        <h2 class="book-title">Clean Code</h2>
+        <p class="book-author">Author: Robert C. Martin</p>
+        <span class="tag tag-avail">In Stock</span>
+        <div class="price">Rs. 1,150</div>
+      </div>
+      <button class="btn-buy" onclick="addToCart('Clean Code')">Add to Cart</button>
+    </div>
+
+    <div class="card" data-title="Kubernetes in Action" data-author="Marko Luksa">
+      <div>
+        <span class="tag tag-cat">DevOps / Orchestration</span>
+        <h2 class="book-title">Kubernetes in Action</h2>
+        <p class="book-author">Author: Marko Luksa</p>
+        <span class="tag tag-avail">In Stock</span>
+        <div class="price">Rs. 1,400</div>
+      </div>
+      <button class="btn-buy" onclick="addToCart('Kubernetes in Action')">Add to Cart</button>
+    </div>
+
+    <div class="card" data-title="Computer Networks" data-author="Andrew Tanenbaum">
+      <div>
+        <span class="tag tag-cat">Networking</span>
+        <h2 class="book-title">Computer Networks (5th Edition)</h2>
+        <p class="book-author">Author: Andrew S. Tanenbaum</p>
+        <span class="tag tag-avail">In Stock</span>
+        <div class="price">Rs. 690</div>
+      </div>
+      <button class="btn-buy" onclick="addToCart('Computer Networks')">Add to Cart</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>Bookstore Version 1.0.0 (Production Stable) | Automated Testing & Deployment Gates</p>
+  </footer>
+
+  <script>
+    let cart = 0;
+    function addToCart(title) {
+      cart++;
+      document.getElementById('cartCount').innerText = cart;
+      alert(`Added "${title}" to your cart!`);
+    }
+    function filterBooks() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const title = card.getAttribute('data-title').toLowerCase();
+        const author = card.getAttribute('data-author').toLowerCase();
+        card.style.display = (title.includes(q) || author.includes(q)) ? 'flex' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
